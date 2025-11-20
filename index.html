@@ -3,237 +3,176 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ATS CV Review System</title>
+<title>Eminent Media Career Growth Resources</title>
 <style>
   body {
-    font-family: "Poppins", sans-serif;
-    background: #f5f7fa;
     margin: 0;
-    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fa;
+    color: #333;
+    overflow-x: hidden;
+  }
+
+  /* Preloader */
+  #preloader {
+    position: fixed;
+    top:0; left:0;
+    width: 100%; height: 100%;
+    background: linear-gradient(to bottom, #f5f7fa, #e0f2fe);
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    z-index: 9999;
+    flex-direction: column;
   }
 
-  header {
-    background-color: #004aad;
-    color: #fff;
-    width: 100%;
-    text-align: center;
-    padding: 20px;
-    font-size: 1.5em;
-    font-weight: 600;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  }
-
-  .eminent-media-link {
-    margin-top: 10px;
-    display: inline-block;
-    padding: 10px 20px;
-    background: #fff;
-    color: #004aad;
-    font-weight: 600;
-    border-radius: 8px;
-    text-decoration: none;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-    transition: 0.3s;
-  }
-
-  .eminent-media-link:hover {
-    background: #e0e7ff;
-  }
-
-  .container {
-    margin-top: 30px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    width: 90%;
-    max-width: 650px;
-    padding: 30px;
-    text-align: center;
-  }
-
-  input[type="file"] {
-    margin: 20px 0;
-    padding: 10px;
-    border: 2px dashed #004aad;
-    border-radius: 8px;
-    width: 100%;
-    background: #f8faff;
-    cursor: pointer;
-  }
-
-  button {
-    background: #004aad;
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 8px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-
-  button:hover { background: #00347a; }
-
-  #loading { display: none; margin-top: 20px; }
-  .loader {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #004aad;
+  .spinner {
+    width: 60px; height: 60px;
+    border: 6px solid #cbd5e1;
+    border-top: 6px solid #0ea5a3;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
     animation: spin 1s linear infinite;
-    margin: 0 auto;
+    margin-bottom: 20px;
   }
 
-  @keyframes spin { 0% {transform: rotate(0deg);} 100% {transform: rotate(360deg);} }
+  .preloader-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #0f172a;
+    opacity: 0;
+    animation: fadeInText 1.2s forwards 0.2s;
+  }
 
-  #result { margin-top: 30px; display: none; text-align: left; }
-  .rating {
-    font-size: 1.2em;
-    font-weight: 600;
-    color: #004aad;
-    margin-bottom: 10px;
-  }
-  .feedback {
-    background: #f1f5ff;
-    border-left: 5px solid #004aad;
-    padding: 15px;
-    border-radius: 5px;
-    white-space: pre-line;
-  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes fadeInText { to { opacity: 1; } }
+
+  #content { opacity: 0; transform: translateY(20px); transition: 0.6s ease; }
+
+  .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+  .hero { text-align: center; padding: 60px 20px; background: linear-gradient(135deg, #0ea5a3, #3b82f6); color:white; border-radius:20px; margin-bottom:40px; box-shadow:0 8px 30px rgba(0,0,0,0.15); }
+
+  .hero h1 { font-size:3rem; margin-bottom:20px; font-weight:800; }
+  .hero p { font-size:1.3rem; line-height:1.6; }
+
+  .tabs { display:flex; border-bottom:2px solid #cbd5e1; margin-bottom:20px; }
+  .tab { padding:12px 24px; cursor:pointer; font-weight:bold; border-top-left-radius:10px; border-top-right-radius:10px; margin-right:5px; background:#e2e8f0; transition:0.3s; }
+  .tab.active { background:#fff; border:2px solid #cbd5e1; border-bottom:none; }
+
+  .tab-content { display:none; background:#fff; padding:20px; border-radius:10px; box-shadow:0 4px 20px rgba(0,0,0,0.08); line-height:1.6; }
+  .tab-content.active { display:block; }
+
+  .card { background:#fff; border-radius:16px; padding:30px; box-shadow:0 4px 20px rgba(0,0,0,0.08); line-height:1.6; font-size:18px; margin-bottom:40px; transition: transform 0.6s ease; }
+  .card:hover { transform:translateY(-5px); }
+
+  .highlight { background:#fff7d6; border-left:5px solid #f2c200; padding:15px; margin:20px 0; border-radius:10px; }
+
+  .cta-btn { display:inline-block; background:#1a73e8; color:white; padding:14px 28px; font-size:18px; border-radius:12px; margin-top:20px; text-decoration:none; box-shadow:0 4px 12px rgba(0,0,0,0.15); transition:0.3s ease; }
+  .cta-btn:hover { background:#0d5fcc; transform:translateY(-2px); }
+
+  .section-title { font-size:28px; font-weight:700; margin-bottom:20px; color:#0f172a; }
+
+  .grid { display:grid; gap:30px; }
+  @media (min-width:768px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+
+  .testimonial { background: rgba(240, 249, 255, 0.8); padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.05); margin-top:15px; }
+  .testimonial p { margin:0; color:#0f172a; }
+  .testimonial em { font-size:0.9rem; color:#475569; }
+
+  footer { text-align:center; padding:30px 20px; color:#64748b; font-size:14px; }
+
 </style>
 </head>
 <body>
-<header>
-  ATS CV Review System By Eminent Media
-</header>
-  Note: Make sure your CV is in PDF format before uploading to ensure better results and a professional output. A 70% ATS score is acceptable, but improving it to 80%+ will significantly increase your chances of passing automated screenings.
-</header>
 
-<!-- Eminent Media Link Tab -->
-<a class="eminent-media-link" href="https://mtechconsult.github.io/EMINENT-MEDIA.-/" target="_blank">
-  Eminent Media — Click here to read more about Eminent Media
-</a>
+<!-- Preloader -->
+<div id="preloader">
+  <div class="spinner"></div>
+  <div class="preloader-text">Loading Eminent Media Resources...</div>
+</div>
 
-<div class="container">
-  <h2>Upload Your CV for ATS Compliance Review</h2>
-  <input type="file" id="cvFile" accept=".pdf, .docx" />
-  <button id="reviewBtn">Review CV</button>
+<!-- Main Content -->
+<div id="content">
+  <div class="container">
 
-  <div id="loading">
-    <div class="loader"></div>
-    <p>Analyzing your CV for ATS compliance...</p>
-  </div>
+    <div class="hero">
+      <h1>Eminent Media Career Growth Resources</h1>
+      <p>Sharpen your approach, and turn your feed into a daily guide for growth, positioning, and career breakthroughs.</p>
+    </div>
 
-  <div id="result">
-    <div class="rating"></div>
-    <div class="feedback"></div>
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab active" data-tab="ats">ATS CV Checker</div>
+      <div class="tab" data-tab="coverletter">Smart Cover Letter</div>
+    </div>
+
+    <!-- Tab Contents -->
+    <div id="ats" class="tab-content active">
+      <div class="card">
+        <p><strong>Most people don’t know their CV is the reason they remain jobless.</strong></p>
+        <p>They keep submitting the same CV, not knowing it gets filtered out before a recruiter even sees it.</p>
+        <p><strong>Before you send another application, <em>check your CV pass rate</em>.</strong></p>
+        <p>This tool instantly tells you if your CV can pass the recruiter’s ATS. If it can’t, it shows you <strong>exactly</strong> what is wrong so you can fix it yourself.</p>
+        <div class="highlight">
+          <p><strong><em>Don’t guess.    Check it now.</em></strong></p>
+        </div>
+        <div style="text-align:center;">
+          <a href="https://selar.com/1a6aw9p9k2" class="cta-btn" target="_blank">Access ATS System</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="coverletter" class="tab-content">
+      <div class="card">
+        <p><strong>The SMART Cover Letter</strong></p>
+        <p>Many applicants only submit their CV and never see results. Using our <em>Smart Cover Letter Generator</em> (which can also be used as an email body) drastically improves your chances:</p>
+        <ol>
+          <li><em>Input your information</em> – Enter your name, job title, and other details.</li>
+          <li><em>Paste the job description</em> – Add the full job posting.</li>
+          <li><em>Generate a smart cover letter</em> – Personalized, highly-targeted cover letter or email body.</li>
+        </ol>
+        <p>It also reveals hidden “codes” in the application process giving you insider insights.</p>
+        <ul>
+          <li>Create a tailored, professional application in minutes.</li>
+          <li>Highlight the skills and keywords employers actually care about.</li>
+          <li>Boost your chances of getting noticed and landing the interview.</li>
+        </ul>
+        <p>90% of applicants miss this insider advantage. Don’t leave your career to chance.</p>
+        <div style="text-align:center;">
+          <a href="https://selar.com/749qk79719" class="cta-btn" target="_blank">Access Smart Cover Letter Generator</a>
+        </div>
+</div>
+</div>
+    <footer>
+      © Eminent Media — Empowering jobseekers • Built for clarity
+    </footer>
+
   </div>
 </div>
 
-<!-- Libraries for file reading -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/mammoth@1.4.21/mammoth.browser.min.js"></script>
-
 <script>
-document.getElementById("reviewBtn").addEventListener("click", async () => {
-  const fileInput = document.getElementById("cvFile");
-  const file = fileInput.files[0];
-  const loading = document.getElementById("loading");
-  const result = document.getElementById("result");
-  const ratingDiv = document.querySelector(".rating");
-  const feedbackDiv = document.querySelector(".feedback");
+  // Preloader fade
+  window.addEventListener('load', () => {
+    const preloader = document.getElementById('preloader');
+    const content = document.getElementById('content');
+    preloader.style.opacity = '0';
+    setTimeout(() => preloader.style.display = 'none', 600);
+    content.style.opacity = '1';
+    content.style.transform = 'translateY(0)';
+  });
 
-  if (!file) {
-    alert("Please upload a PDF or DOCX CV first.");
-    return;
-  }
-
-  result.style.display = "none";
-  loading.style.display = "block";
-
-  let text = "";
-
-  if (file.name.endsWith(".pdf")) {
-    text = await extractTextFromPDF(file);
-  } else if (file.name.endsWith(".docx")) {
-    text = await extractTextFromDocx(file);
-  } else {
-    alert("Unsupported file format.");
-    loading.style.display = "none";
-    return;
-  }
-
-  const scoreData = analyzeCVText(text);
-  loading.style.display = "none";
-  result.style.display = "block";
-  ratingDiv.innerHTML = `ATS Compliance Score: ${scoreData.score}%`;
-  feedbackDiv.innerHTML = scoreData.feedback;
-});
-
-// Extract text from PDF
-async function extractTextFromPDF(file) {
-  const arrayBuffer = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-  let text = "";
-  for (let i = 1; i <= pdf.numPages; i++) {
-    const page = await pdf.getPage(i);
-    const content = await page.getTextContent();
-    const strings = content.items.map(item => item.str);
-    text += strings.join(" ") + "\n";
-  }
-  return text;
-}
-
-// Extract text from DOCX
-async function extractTextFromDocx(file) {
-  const arrayBuffer = await file.arrayBuffer();
-  const result = await mammoth.extractRawText({ arrayBuffer });
-  return result.value;
-}
-
-// Simple ATS analyzer
-function analyzeCVText(text) {
-  text = text.toLowerCase();
-  const totalWords = text.split(/\s+/).length;
-
-  const keywords = [
-    "experience","education","skills","project","achievements","certifications",
-    "leadership","team","management","communication","python","excel","marketing",
-    "finance","sales","strategy","customer","design","analysis","data"
-  ];
-  
-  const keywordHits = keywords.filter(k => text.includes(k)).length;
-  const keywordScore = Math.min((keywordHits / keywords.length) * 100, 100);
-
-  const hasSections = ["education","experience","skills","summary"].filter(s => text.includes(s)).length;
-  const structureScore = (hasSections / 4) * 100;
-
-  const bulletPoints = (text.match(/•|- /g) || []).length;
-  const formattingScore = Math.min((bulletPoints / 10) * 100, 100);
-
-  const wordCountScore = totalWords >= 250 && totalWords <= 800 ? 100 : 60;
-
-  const totalScore = Math.round((keywordScore * 0.4) + (structureScore * 0.3) + (formattingScore * 0.2) + (wordCountScore * 0.1));
-
-  let feedback = `🧾 File analyzed successfully.\n\n`;
-  feedback += `📄 Word count: ${totalWords}\n`;
-  feedback += `🧠 Keywords found: ${keywordHits} / ${keywords.length}\n\n`;
-  
-  if (keywordScore < 60) feedback += "🔹 Add more job-related keywords.\n";
-  if (structureScore < 70) feedback += "🔹 Include clear sections like Education, Experience, and Skills.\n";
-  if (formattingScore < 50) feedback += "🔹 Use bullet points to highlight key achievements.\n";
-  if (wordCountScore < 80) feedback += "🔹 Ensure your CV length is between 1-2 pages.\n";
-  if (totalScore >= 85) feedback += "\n✅ Excellent! Your CV is highly ATS compliant.";
-  else if (totalScore >= 70) feedback += "\n⚙️ Good! Just a few improvements needed.";
-  else feedback += "\n🚀 Needs improvement. Consider optimizing formatting and keywords.";
-
-  return { score: totalScore, feedback };
-}
+  // Tab switching
+  const tabs = document.querySelectorAll('.tab');
+  const contents = document.querySelectorAll('.tab-content');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      contents.forEach(c => c.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
+    });
+  });
 </script>
 </body>
-</html>
+  </html>
+  
