@@ -227,8 +227,23 @@ function analyzeCVText(text) {
   if (keywordScore < 60) feedback += "🔹 Add more job-related keywords.\n";
   if (structureScore < 70) feedback += "🔹 Include clear sections like Education, Experience, and Skills.\n";
   if (formattingScore < 50) feedback += "🔹 Use bullet points to highlight key achievements.\n";
-  if (wordCountScore < 80) feedback += "🔹 Ensure your CV length is between 1-2 pages.\n";
-  if (totalScore >= 85) feedback += "\n✅ Excellent! Your CV is highly ATS compliant.";
+  if (wordCountScore < 80) feedback += "🔹 Ensure your CV length is between 1-2 pages.Avoid CVs longer than 2 pages (unless you are in academia or research).
+Most recruiters and ATS tools prefer concise, relevant, and well-structured CVs.
+
+When it’s okay for a CV to be more than 2 pages
+
+🔹You have 10+ years of experience across multiple roles.
+
+🔹You are in a technical field with projects, certifications, and tools to list (e.g., IT, engineering).
+
+🔹You are applying for senior, managerial, or executive roles.
+
+🔹You are in academia, research, or publications, where long CVs are standard.
+
+⚠️ But keep in mind:
+
+Recruiters still prefer 2 pages max for most jobs.\n";
+  if (totalScore >= 80) feedback += "\n✅ Excellent! Your CV is highly ATS compliant.";
   else if (totalScore >= 70) feedback += "\n⚙️ Good! Just a few improvements needed.";
   else feedback += "\n🚀 Needs improvement. Consider optimizing formatting and keywords.";
 
