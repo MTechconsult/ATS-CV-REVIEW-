@@ -228,8 +228,13 @@ function analyzeCVText(text) {
   if (structureScore < 70) feedback += "🔹 Include clear sections like Education, Experience, and Skills.\n";
   if (formattingScore < 50) feedback += "🔹 Use bullet points to highlight key achievements.\n";
   if (wordCountScore < 80) feedback += "🔹 Ensure your CV length is between 1-2 pages.\n";
-  if (totalScore >= 80) feedback += "\n✅ Excellent! Your CV is highly ATS compliant.";
-  else if (totalScore >= 70) feedback += "\n⚙️ Good! Just a few improvements needed.";
+  if (totalScore >= 80) feedback += "\n✅ Excellent Match! Your CV aligns strongly with the job description.
+You have a high chance of passing automated screening and moving directly to the recruiter’s review stage.
+Keep up the strong structure and keyword relevance.
+                         .";
+  else if (totalScore >= 70) feedback += "\n⚙️ Good Match! Just a few improvements needed. Your CV meets most ATS requirements but needs a few updates.
+Improving your keywords, formatting, and job-specific alignment will strengthen your visibility during screening.
+A quick revision can boost your chances significantly.";
   else feedback += "\n🚀 Needs improvement. Consider optimizing formatting and keywords.";
 
   return { score: totalScore, feedback };
