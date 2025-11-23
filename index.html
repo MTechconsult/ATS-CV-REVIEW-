@@ -44,6 +44,18 @@
     background: #e0e7ff;
   }
 
+  .note-box {
+    margin-top: 20px;
+    width: 90%;
+    max-width: 650px;
+    background: #fff8e6;
+    padding: 15px 20px;
+    border-left: 5px solid #ffb100;
+    border-radius: 8px;
+    font-size: 0.95em;
+    line-height: 1.5em;
+  }
+
   .container {
     margin-top: 30px;
     background: white;
@@ -89,7 +101,10 @@
     margin: 0 auto;
   }
 
-  @keyframes spin { 0% {transform: rotate(0deg);} 100% {transform: rotate(360deg);} }
+  @keyframes spin { 
+    0% {transform: rotate(0deg);} 
+    100% {transform: rotate(360deg);} 
+  }
 
   #result { margin-top: 30px; display: none; text-align: left; }
   .rating {
@@ -104,21 +119,26 @@
     padding: 15px;
     border-radius: 5px;
     white-space: pre-line;
+    font-size: 0.95em;
   }
 </style>
 </head>
 <body>
+
 <header>
-  ATS CV Review System By Eminent Media 
+  ATS CV Review System By Eminent Media
 </header>
-<!-- Eminent Media Link Tab -->
+
 <a class="eminent-media-link" href="https://mtechconsult.github.io/EMINENT-MEDIA.-/" target="_blank">
-  Eminent Media — Click here to read more about Eminent Media
+  Eminent Media — Click Here to Learn More
 </a>
 
-Note:
-Ensure to upload your CV as a PDF for the best results and professional output.
-A 70% ATS score is acceptable, but aiming for 80% or higher maximizes your chances of strong results during automated screening.
+<div class="note-box">
+  <strong>Note:</strong>  
+  • Upload your CV as a <b>PDF</b> for the best accuracy and output.  
+  • A 70% ATS score is acceptable, but achieving <b>80%+</b> significantly increases your chances of passing automated screening and reaching the recruiter’s desk.
+</div>
+
 <div class="container">
   <h2>Upload Your CV for ATS Compliance Review</h2>
   <input type="file" id="cvFile" accept=".pdf, .docx" />
@@ -135,7 +155,6 @@ A 70% ATS score is acceptable, but aiming for 80% or higher maximizes your chanc
   </div>
 </div>
 
-<!-- Libraries for file reading -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mammoth@1.4.21/mammoth.browser.min.js"></script>
 
@@ -169,34 +188,38 @@ document.getElementById("reviewBtn").addEventListener("click", async () => {
   }
 
   const scoreData = analyzeCVText(text);
+
   loading.style.display = "none";
   result.style.display = "block";
-  ratingDiv.innerHTML = `ATS Compliance Score: ${scoreData.score}%`;
+
+  ratingDiv.innerHTML = `ATS Compliance Score: <b>${scoreData.score}%</b>`;
   feedbackDiv.innerHTML = scoreData.feedback;
 });
 
-// Extract text from PDF
+// Extract PDF text
 async function extractTextFromPDF(file) {
   const arrayBuffer = await file.arrayBuffer();
   const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
   let text = "";
+
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
     const content = await page.getTextContent();
     const strings = content.items.map(item => item.str);
     text += strings.join(" ") + "\n";
   }
+
   return text;
 }
 
-// Extract text from DOCX
+// Extract DOCX text
 async function extractTextFromDocx(file) {
   const arrayBuffer = await file.arrayBuffer();
   const result = await mammoth.extractRawText({ arrayBuffer });
   return result.value;
 }
 
-// Simple ATS analyzer
+// ATS Analyzer
 function analyzeCVText(text) {
   text = text.toLowerCase();
   const totalWords = text.split(/\s+/).length;
@@ -206,7 +229,7 @@ function analyzeCVText(text) {
     "leadership","team","management","communication","python","excel","marketing",
     "finance","sales","strategy","customer","design","analysis","data"
   ];
-  
+
   const keywordHits = keywords.filter(k => text.includes(k)).length;
   const keywordScore = Math.min((keywordHits / keywords.length) * 100, 100);
 
@@ -218,24 +241,35 @@ function analyzeCVText(text) {
 
   const wordCountScore = totalWords >= 250 && totalWords <= 800 ? 100 : 60;
 
-  const totalScore = Math.round((keywordScore * 0.4) + (structureScore * 0.3) + (formattingScore * 0.2) + (wordCountScore * 0.1));
+  const totalScore = Math.round(
+    (keywordScore * 0.4) + 
+    (structureScore * 0.3) + 
+    (formattingScore * 0.2) + 
+    (wordCountScore * 0.1)
+  );
 
   let feedback = `🧾 File analyzed successfully.\n\n`;
-  feedback += `📄 Word count: ${totalWords}\n`;
-  feedback += `🧠 Keywords found: ${keywordHits} / ${keywords.length}\n\n`;
-  
-  if (keywordScore < 60) feedback += "🔹 Add more job-related keywords.\n";
-  if (structureScore < 70) feedback += "🔹 Include clear sections like Education, Experience, and Skills.\n";
-  if (formattingScore < 50) feedback += "🔹 Use bullet points to highlight key achievements.\n";
-  if (wordCountScore < 80) feedback += "🔹 Ensure your CV length is between 1-2 pages.\n";
-  if (totalScore >= 80) feedback += "\n✅ Excellent Match! Your CV aligns strongly with the job description. Your CV aligns strongly with the job description.
-You have a high chance of passing automated screening and moving directly to the recruiter’s review stage.
-Keep up the strong structure and keyword relevance.
-                         .";
-  else if (totalScore >= 70) feedback += "\n⚙️ Good Match! Just a few improvements needed. Your CV meets most ATS requirements but needs a few updates.
-Improving your keywords, formatting, and job-specific alignment will strengthen your visibility during screening.
-A quick revision can boost your chances significantly.";
-  else feedback += "\n🚀 Needs improvement. Consider optimizing formatting and keywords.";
+  feedback += `📄 Word Count: ${totalWords}\n`;
+  feedback += `🔍 Keywords Matched: ${keywordHits} / ${keywords.length}\n\n`;
+
+  if (keywordScore < 60) feedback += "🔹 Add more job-related keywords for better ATS visibility.\n";
+  if (structureScore < 70) feedback += "🔹 Include well-structured sections like Education, Experience, and Skills.\n";
+  if (formattingScore < 50) feedback += "🔹 Use bullet points to highlight achievements clearly.\n";
+  if (wordCountScore < 80) feedback += "🔹 Keep your CV within 1–2 pages for best results.\n";
+
+  if (totalScore >= 80) {
+    feedback += `\n✅ <b>Excellent Match!</b>  
+Your CV aligns strongly with key ATS requirements.  
+You have a high chance of passing automated screening and moving directly to the recruiter’s desk.`;
+  } 
+  else if (totalScore >= 70) {
+    feedback += `\n⚙️ <b>Good Match.</b>  
+Your CV meets most ATS standards, but minor improvements in keywords, formatting, and alignment can boost your score significantly.`;
+  } 
+  else {
+    feedback += `\n🚀 <b>Needs Improvement.</b>  
+Consider restructuring your content, adding industry keywords, and improving readability.`;
+  }
 
   return { score: totalScore, feedback };
 }
